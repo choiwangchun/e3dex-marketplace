@@ -1,0 +1,32 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "e3dex",
+  "version": "4.3.2",
+  "description": "열린 프로젝트·작업 DB를 선택하는 PIPE·Structures·장비·PLAN 통합 E3D 도구",
+  "author": {
+    "name": "E3DEX Team"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "E3DEX",
+        "shortDescription": "프로젝트 선택형 E3D 통합 하네스",
+        "longDescription": "현재 열린 E3D 프로젝트·MDB와 쓰기 가능한 DB·SITE를 읽고 사용자가 선택한 위치에 작업합니다. PIPE 끝단 처리, GS 구조·브레이싱, 장비 CTOR·VP 노즐, PLAN/DXF 기능을 제공합니다. 정확한 세션과 대상 DB를 실행 직전에 검증합니다. Windows x64 / E3D 2.1 전용입니다. 관리자가 승인한 계정만 사용할 수 있으며, 배관·구조·장비·PLAN 생성은 관리 서버에서 실행되어 항상 최신 버전이 적용됩니다.",
+        "developerName": "E3DEX Team",
+        "category": "Productivity",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "defaultPrompt": [
+          "E3DEX 로그인해줘.",
+          "열린 E3D 프로젝트를 읽고 어디에 작업할지 물어봐줘.",
+          "선택한 프로젝트에서 Structures를 모델링해줘.",
+          "E3DEX 초기 설정과 선택한 프로젝트 연결 검증을 해줘."
+        ],
+        "brandColor": "#176B87"
+      },
+      "requires_local_executor": true
+    }
+  }
+}

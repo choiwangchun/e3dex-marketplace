@@ -1,0 +1,14 @@
+{
+  "name": "e3dex",
+  "description": "E3DEX plugins for Claude Code and Codex",
+  "owner": {
+    "name": "E3DEX Team"
+  },
+  "plugins": [
+    {
+      "name": "e3dex",
+      "source": "./plugins/e3dex",
+      "description": "AVEVA E3D PIPE·Structures·장비·PLAN 작업 도구 (관리자 승인 계정 전용)"
+    }
+  ]
+}

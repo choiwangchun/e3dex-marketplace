@@ -1,0 +1,15 @@
+{
+  "note": "Tool names only. Usage rules are provided to approved users by e3d_guide.",
+  "operations": {
+    "e3d_equipment_harness": {},
+    "e3d_list_sessions": {},
+    "e3d_pipe_harness": {},
+    "e3d_plan_export": {},
+    "e3d_plan_profile": {},
+    "e3d_run_macro": {},
+    "e3d_session_context": {},
+    "e3d_setup": {},
+    "e3d_structures_harness": {},
+    "e3d_work_context": {}
+  }
+}

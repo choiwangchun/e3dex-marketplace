@@ -1,0 +1,2 @@
+VAR !element REFNO
+!!E3DHarnessData.append('probe_ref=' & !element)
