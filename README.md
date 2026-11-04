@@ -3,7 +3,7 @@
 현재 열린 E3D 프로젝트·MDB와 쓰기 가능한 DB·SITE를 읽고 사용자가 선택한 위치에 작업합니다. PIPE 끝단 처리, GS 구조·브레이싱, 장비 CTOR·VP 노즐, PLAN/DXF 기능을 제공합니다. 정확한 세션과 대상 DB를 실행 직전에 검증합니다. Windows x64 / E3D 2.1 전용입니다. 관리자가 승인한 계정만 사용할 수 있으며, 배관·구조·장비·PLAN 생성은 관리 서버에서 실행되어 항상 최신 버전이 적용됩니다.
 
 - 지원: **Claude Code**, **Codex** (Windows x64 + AVEVA E3D 2.1)
-- 플러그인: `e3dex` 4.3.2
+- 플러그인: `e3dex` 4.3.3
 - 사용하려면 관리자 승인 계정이 필요합니다: https://choi-macmini-1.tailf0b78b.ts.net/signup
 
 ## Claude Code

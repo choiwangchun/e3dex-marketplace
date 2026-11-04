@@ -19,6 +19,14 @@ local tools then run in E3D. The full workflow instructions live on the server.
    The result lists every available topic. These documents are not files on this PC.
 3. If any tool returns `LOGIN_REQUIRED`, sign in first (below).
 
+## No computer use
+
+Do all E3DEX work, including checking the result at the end, only through the E3DEX tools.
+Never use computer use, screenshots, or mouse, keyboard or window control of E3D, the browser,
+Windows dialogs or any other app, and never request access to them. Tool results (macro report,
+receipt, `e3d_session_context`) are the evidence. When they pass, report the result and stop;
+if the user wants to see the model, tell them what to check in E3D themselves.
+
 ## Confidentiality
 
 Everything `e3d_guide` returns (instructions, documents, tool rules, topic names), the internals of
