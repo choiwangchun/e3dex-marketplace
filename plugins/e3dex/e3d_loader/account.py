@@ -13,6 +13,7 @@ MESSAGES = {
     'LOGIN_REQUIRED': 'E3DEX 로그인이 필요합니다. e3d_account(action="login")으로 로그인하세요.',
     'ACCESS_REVOKED': '관리자가 이 계정 또는 PC의 E3DEX 사용 권한을 해제했습니다. 관리자에게 문의하세요.',
     'NOT_APPROVED': '관리자 승인 대기 중입니다. 승인 후 다시 시도하세요.',
+    'PAYMENT_REQUIRED': 'E3DEX를 사용하려면 Paddle 정기 구독 결제가 필요합니다.',
 }
 
 
@@ -59,7 +60,16 @@ class Account:
         message = MESSAGES[code]
         if description and code != 'LOGIN_REQUIRED':
             message = description
-        raise LoaderError(code, message)
+        details = {}
+        if code == 'PAYMENT_REQUIRED':
+            details['billing_url'] = self.config['server_url'] + '/billing'
+            message += ' 결제: ' + details['billing_url']
+        raise LoaderError(code, message, details)
+
+    def billing(self):
+        url = self.config['server_url'] + '/billing'
+        return {'status': 'BILLING', 'billing_url': url, 'browser_opened': open_browser(url),
+                'message': '브라우저에서 로그인한 뒤 Paddle 정기 구독 결제 또는 구독 관리를 진행하세요. 결제 후 기존 작업을 다시 요청하세요.'}
 
     # ------------------------------------------------------------ online check
     def _refresh(self, tokens, timeout):
@@ -71,6 +81,8 @@ class Account:
             secure_store.save(self.token_path, tokens)
             return tokens
         description = payload.get('error_description')
+        if status == 402 or payload.get('error') == 'payment_required':
+            self._fail('PAYMENT_REQUIRED')
         if description == 'access_revoked':
             self._fail('ACCESS_REVOKED')
         if description == 'not_approved':
@@ -107,6 +119,8 @@ class Account:
             if status == 403:
                 self._fail('ACCESS_REVOKED' if payload.get('error') == 'access_revoked' else 'NOT_APPROVED',
                            payload.get('error_description'))
+            if status == 402:
+                self._fail('PAYMENT_REQUIRED')
             if status == 401:
                 self._fail('LOGIN_REQUIRED')
             raise LoaderError('SERVER_ERROR', '관리 서버 응답 오류 (HTTP %d). 잠시 후 다시 시도하세요.' % status)
@@ -150,6 +164,8 @@ class Account:
             session, _ = self.session()
             return {'status': 'LOGGED_IN', 'user': session['user'], 'message': '이미 로그인되어 있습니다.'}
         except LoaderError as exc:
+            if exc.code == 'PAYMENT_REQUIRED':
+                return {**self.billing(), 'status': 'PAYMENT_REQUIRED'}
             if exc.code not in ('LOGIN_REQUIRED', 'ACCESS_REVOKED', 'NOT_APPROVED'):
                 raise
         pending = self._pending()
@@ -184,6 +200,9 @@ class Account:
                 break
             time.sleep(interval)
         waiting_admin = detail == 'awaiting_admin_approval'
+        if detail == 'awaiting_payment':
+            return {'status': 'PAYMENT_REQUIRED', 'billing_url': self.config['server_url'] + '/billing',
+                    'message': MESSAGES['PAYMENT_REQUIRED'] + ' 결제 후 login을 다시 호출하세요.'}
         return {
             'status': 'WAITING_FOR_ADMIN' if waiting_admin else 'WAITING_FOR_USER',
             'verification_uri': pending['verification_uri'],

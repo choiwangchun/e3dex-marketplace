@@ -1,10 +1,10 @@
 {
   "algorithm": "SHA256",
   "files": {
-    ".claude-plugin/plugin.json": "510de56f9a1c0816b9db6709c35c8b38cce0df09c1958ec0028a7f163591a118",
-    ".codex-plugin/plugin.json": "9eada94a61e99a023fa890ed0100e1504b83c06903bd06734277d83611f62c5f",
+    ".claude-plugin/plugin.json": "d09864d410a034fd38b29ba41d070dc98ebbd5671711c3ff6c56357b02b58e77",
+    ".codex-plugin/plugin.json": "e23691f4065d82b5b60311147feb688959bad0926c3b993c01c0cc425d5c0b62",
     ".mcp.json": "7d5406e701d6af57444a2b42dad959649769d4fa225ac1644b871bf86ead4235",
-    "README.ko.md": "79ee53303e03c762ad004bf19f795493992c7f4e0ffe71679861c52e5814714b",
+    "README.ko.md": "1711618d1807af1f0985f3ba09b2d3fbca342107c73e6db5112ab3513a564ed7",
     "bridge.json": "53ea9ef2f751949b848a10ea8cf68baaf721bf168715596ba23361e2614bc46f",
     "components/harness/bridge/multi/probe.pmlmac": "2f10f9023f763c34273cfe7246d1d430b1b9928bd6e48d637e353327318c82ce",
     "components/harness/bridge/multi/sessions.py": "7e04bcfd3c80dacb024fd669b3bfd85f21cf08c5869862e57a4275edb98bbce7",
@@ -22,16 +22,16 @@
     "e3d_bridge/setup.py": "bbeab913054d04cbea813076af784210c6eaffdabfd67f0171181e9f299e5493",
     "e3d_bridge/target.py": "bd05f02586bcc8254ca93a67b9108ba3ad78542e43e4caf1c2c901f2ab08a5e3",
     "e3d_bridge/work_context.py": "8f3f04ae2e88df35c74b7ab6f6b09dd29011fa6ee54643d7572850b7e698f4f5",
-    "e3d_loader/__init__.py": "76a56eb25008b21f4ce981ce646806a09234874679185720c5cf1f44cec84f3a",
-    "e3d_loader/account.py": "6c699652e4e70eee5b7af8e516fc55e5982ccef3326372986cd53be818f2c835",
-    "e3d_loader/cli.py": "9d8797c323ee2107b036e186046eb7f8434f74b456f55eca4bf7e60cb20c54f2",
+    "e3d_loader/__init__.py": "c4fba8f80eccb50f39a87192b7b36f3156b1c9569f635c11a5d22f182bdc7810",
+    "e3d_loader/account.py": "bb475bc87a9a7aa7273579bb4e295c9129f25884096835759f5a69fe4fb3a9e0",
+    "e3d_loader/cli.py": "ce7be81963b238a85c921fee76b3180e33b38c24fa1e33be68561bdc1908caf2",
     "e3d_loader/client.py": "f45ff5c2e3b5079292d804f5fba52a1cf0ce001de58e66ebc8ef4d68700bdd70",
     "e3d_loader/config.json": "22eabc79e11fe3a04f540e8a896f73a4460cdc8c0b8829dbc6f08edd689efd4e",
-    "e3d_loader/proxy.py": "c4c4a0288074ffbace87e346542d6d67cc57e2600b9cfcfbca248439cdd6cdfc",
-    "e3d_loader/remote.py": "289503051214356ab55329da08069564dc88e301b88cc5b1caa07e76caab1713",
+    "e3d_loader/proxy.py": "2ed14e619f98600fc5f69eae6e80048d062dee19b25a43c5a63d5029e4e1303a",
+    "e3d_loader/remote.py": "3a4cdebfcf1b9e5e818b9bb747bc90cd65689db6cc634ba0cb9d180d758bb683",
     "e3d_loader/secure_store.py": "074ffb7ae2f072582f99b8bf113676a8829f6d0dd5b74e059ee63813f429f30d",
     "mcp.json": "c42cb1308983c1d9e6967a46099e24d4f01bc2a36b86fca02d52c2d06c191923",
-    "plugin.json": "fc3990658fd1c1a94d5f43ae714e24c4028de7c71e020282ff93bbb6972f01b1",
+    "plugin.json": "b084774265d342e9aec01a8d43c5170ed3b8a24206d40f9cb75ad07da4c1ca8a",
     "runtime/PYTHON-LICENSE.txt": "62bec384df47b0328307db41455ff6ea2559e5546b394ac69148561b21703120",
     "runtime/python-3.13.13-embed-amd64.zip.sigstore": "cc5cebfe4f853a0f0efb330a59c0f5c349eab9e24ef3f2546974244245b09b8b",
     "runtime/python.json": "5bb7885b6cf5536a51c131695fe34ea9fabc8732a07c208ddb463032b012859a",
@@ -41,6 +41,6 @@
     "scripts/launch.py": "4ea5638ed8e113c87d1a7d50e93d3ed3b7717bdc10102f94535e39e51d1535fe",
     "scripts/runtime.ps1": "799b5b86b434983d4140eba1530dba1693b027ab2ece433e9b615d83c8b3099c",
     "scripts/setup.ps1": "1ab325807928fbe88be091614a6aaf8dda27f2cc5505994c4d8e7dcd794617cf",
-    "skills/e3dex/SKILL.md": "0786b1ce8f3e5d6c777111a78effeccdd8e4d3e7a1e5696bd24d6d07f10c2e72"
+    "skills/e3dex/SKILL.md": "075a237011e45ad932f3e138a979ba5f9f94843693823c009d3c17e42d3f4ae1"
   }
 }

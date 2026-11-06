@@ -13,12 +13,14 @@ from .account import Account
 from .client import Http
 
 INSTRUCTIONS = (
-    'E3DEX is available only to accounts approved by the administrator. Generation (pipe, '
+    'E3DEX requires an active paid Paddle subscription or administrator-granted manual access. Generation (pipe, '
     'structures, equipment, PLAN) runs on the administrator\'s server. Before any E3D setup or modeling '
     'work call e3d_guide and follow the returned instructions; call it again with a topic to read a '
     'referenced document. If a tool returns LOGIN_REQUIRED, call e3d_account with action="login" and show '
     'the user the returned address and code; the user signs in in the browser themselves (never ask for or '
-    'type their password). ACCESS_REVOKED and SERVER_UNREACHABLE must be reported, never worked around. '
+    'type their password). On PAYMENT_REQUIRED show billing_url and call e3d_account(action="billing") to open '
+    'Paddle billing for the user; the user completes payment in their browser. Retry the original tool after payment. '
+    'ACCESS_REVOKED and SERVER_UNREACHABLE must be reported, never worked around. '
     'Never use computer use, screenshots, or mouse, keyboard or window control of E3D, the browser or any other app '
     'for E3DEX work, not even to confirm a result at the end: the tool results (macro report, receipt, '
     'e3d_session_context) are the evidence; when they pass, report to the user and stop. '
@@ -30,9 +32,10 @@ ACCOUNT_TOOL = {
     'name': 'e3d_account',
     'description': ('E3DEX sign-in state for this PC. status: show the signed-in account and versions. '
                     'login: start or continue browser sign-in; returns an address and code for the user to confirm in their browser '
-                    '(waits up to about 40 seconds; call again after the user finishes or after admin approval). '
-                    'logout: sign out and disconnect this PC. Use when any E3D tool returns LOGIN_REQUIRED.'),
-    'inputSchema': {'type': 'object', 'properties': {'action': {'type': 'string', 'enum': ['status', 'login', 'logout']}},
+                    '(waits up to about 40 seconds; call again after the user finishes payment or receives manual access). '
+                    'billing: open Paddle subscription checkout or management in the browser. '
+                    'logout: sign out and disconnect this PC. Use on LOGIN_REQUIRED or PAYMENT_REQUIRED.'),
+    'inputSchema': {'type': 'object', 'properties': {'action': {'type': 'string', 'enum': ['status', 'login', 'billing', 'logout']}},
                     'required': ['action'], 'additionalProperties': False},
 }
 GUIDE_TOOL = {
@@ -156,12 +159,14 @@ class Proxy:
                 return tool_result(result, result['status'] not in ('LOGGED_IN', 'WAITING_FOR_USER', 'WAITING_FOR_ADMIN'))
             if action == 'logout':
                 return tool_result(self.account.logout())
+            if action == 'billing':
+                return tool_result(self.account.billing())
             if action == 'status':
                 session = self.gate()
                 return tool_result({'status': 'LOGGED_IN', 'user': session['user'], 'device': session['device'],
                                     'app_version': (session.get('app') or {}).get('version'),
                                     'plugin_version': package_version(), 'server': self.config['server_url']})
-            raise LoaderError('INVALID_REQUEST', 'action must be status, login or logout')
+            raise LoaderError('INVALID_REQUEST', 'action must be status, login, billing or logout')
         except LoaderError as exc:
             return tool_result({'status': exc.code, 'message': str(exc), 'details': exc.details,
                                 'server': self.config['server_url']}, True)

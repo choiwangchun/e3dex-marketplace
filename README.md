@@ -1,10 +1,10 @@
 # E3DEX 플러그인 마켓플레이스
 
-현재 열린 E3D 프로젝트·MDB와 쓰기 가능한 DB·SITE를 읽고 사용자가 선택한 위치에 작업합니다. PIPE 끝단 처리, GS 구조·브레이싱, 장비 CTOR·VP 노즐, PLAN/DXF 기능을 제공합니다. 정확한 세션과 대상 DB를 실행 직전에 검증합니다. Windows x64 / E3D 2.1 전용입니다. 관리자가 승인한 계정만 사용할 수 있으며, 배관·구조·장비·PLAN 생성은 관리 서버에서 실행되어 항상 최신 버전이 적용됩니다.
+현재 열린 E3D 프로젝트·MDB와 쓰기 가능한 DB·SITE를 읽고 사용자가 선택한 위치에 작업합니다. PIPE 끝단 처리, GS 구조·브레이싱, 장비 CTOR·VP 노즐, PLAN/DXF 기능을 제공합니다. 정확한 세션과 대상 DB를 실행 직전에 검증합니다. Windows x64 / E3D 2.1 전용입니다. 활성 Paddle 정기 구독 또는 관리자가 부여한 수동 이용 권한이 필요하며, 배관·구조·장비·PLAN 생성은 관리 서버에서 실행되어 항상 최신 버전이 적용됩니다.
 
 - 지원: **Claude Code**, **Codex** (Windows x64 + AVEVA E3D 2.1)
-- 플러그인: `e3dex` 4.3.3
-- 사용하려면 관리자 승인 계정이 필요합니다: https://choi-macmini-1.tailf0b78b.ts.net/signup
+- 플러그인: `e3dex` 4.4.1
+- 활성 Paddle 정기 구독 또는 관리자가 부여한 수동 이용 권한이 필요합니다: https://choi-macmini-1.tailf0b78b.ts.net/signup
 
 ## Claude Code
 
@@ -34,7 +34,7 @@ codex plugin add e3dex@e3dex
 
 ## 처음 사용할 때
 
-1. https://choi-macmini-1.tailf0b78b.ts.net/signup 에서 사용 신청 → 관리자 승인을 기다립니다.
+1. https://choi-macmini-1.tailf0b78b.ts.net/signup 에서 가입하고 Paddle 정기 구독을 결제합니다. 관리자가 수동 이용 권한을 부여한 계정은 결제 없이 사용할 수 있습니다.
 2. 새 채팅에서 "E3DEX 로그인해줘" → 브라우저에서 코드를 확인하고 **연결하기**.
 3. 처음 쓰는 PC라면 "E3DEX 초기 설정해줘"라고 요청합니다.
 

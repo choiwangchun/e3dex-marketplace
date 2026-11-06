@@ -5,7 +5,7 @@ description: Set up E3DEX and perform authorized user-selected-project PIPE, Str
 
 # E3DEX
 
-E3DEX is available only to accounts the administrator has approved. The plugin
+E3DEX requires an active paid Paddle subscription or administrator-granted manual access. The plugin
 checks the account with the administrator's server on every tool call. Generation
 (pipe, structures, equipment, PLAN) runs on that server and returns macros that the
 local tools then run in E3D. The full workflow instructions live on the server.
@@ -18,6 +18,9 @@ local tools then run in E3D. The full workflow instructions live on the server.
    `docs/WORK_TARGET.ko.md` or `README.ko.md`), read it with `e3d_guide(topic="<that path>")`.
    The result lists every available topic. These documents are not files on this PC.
 3. If any tool returns `LOGIN_REQUIRED`, sign in first (below).
+4. On `PAYMENT_REQUIRED`, show the returned `billing_url` and call
+   `e3d_account(action="billing")` to open subscription checkout or management.
+   The user completes payment themselves. Retry login or the original tool after payment.
 
 ## No computer use
 
@@ -47,8 +50,6 @@ waits briefly. Then act on `status`:
 - `WAITING_FOR_USER`: show the user the `verification_uri_complete` address and the
   `user_code`. The user opens it, signs in (or applies for an account on the same page)
   and presses "연결하기". When the user says they are done, call login again.
-- `WAITING_FOR_ADMIN`: the PC is linked but the administrator has not approved the
-  account yet. Tell the user; call login again after approval.
 - `LOGGED_IN`: call `e3d_guide` and continue.
 - `EXPIRED` or `DENIED`: call login again only if the user wants to retry.
 
@@ -58,7 +59,7 @@ Never ask for, read back or type the user's password. The user signs in in the b
 
 - `ACCESS_REVOKED`: the administrator removed this account's or this PC's access.
   Tell the user to contact the administrator.
-- `NOT_APPROVED`: the account is waiting for administrator approval.
+- `PAYMENT_REQUIRED`: an active paid subscription is required; open billing as above.
 - `SERVER_UNREACHABLE`: the approval server cannot be reached. E3DEX does not
   work offline; ask the user to check the internet connection and try again later.
 - `LOADER_OUTDATED`: the user must update the plugin from the marketplace.
@@ -69,7 +70,7 @@ Never edit Codex or Claude Code config or add another MCP registration to bypass
 ## Only if the MCP tools fail to start
 
 Resolve `../../scripts/launch.ps1` relative to this SKILL.md and run it with PowerShell:
-`launch.ps1 login` (prints the address and code, waits for the user), `launch.ps1 account`,
+`launch.ps1 login` (prints the address and code, waits for the user), `launch.ps1 account`, `launch.ps1 billing`,
 or any app command documented by `e3d_guide` (for example `setup inspect --module Both`).
 For a first-start timeout, run `launch.ps1 schema` with a 120-second timeout to finish the
 Python runtime download, then reconnect the plugin. Never use this to bypass a denied tool action.

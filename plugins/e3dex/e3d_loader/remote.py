@@ -48,6 +48,8 @@ def _post(path, body, timeout):
         if status == 401 and attempt == 0:
             token = account.access_token(force_refresh=True)
             continue
+        if status == 402:
+            account._fail('PAYMENT_REQUIRED')
         if status == 403:
             account._fail('ACCESS_REVOKED' if payload.get('error') == 'access_revoked' else 'NOT_APPROVED',
                           payload.get('error_description'))
@@ -200,6 +202,8 @@ def guide(topic=None):
         if status == 401 and attempt == 0:
             token = account.access_token(force_refresh=True)
             continue
+        if status == 402:
+            account._fail('PAYMENT_REQUIRED')
         if status == 403:
             account._fail('ACCESS_REVOKED' if payload.get('error') == 'access_revoked' else 'NOT_APPROVED',
                           payload.get('error_description'))

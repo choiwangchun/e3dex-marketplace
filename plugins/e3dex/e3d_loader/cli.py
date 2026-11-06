@@ -39,6 +39,9 @@ def main(argv):
         if command == 'logout':
             emit(account.logout())
             return 0
+        if command == 'billing':
+            emit(account.billing())
+            return 0
         if command == 'configure':
             raise LoaderError('CONFIG_ERROR', 'Install this package through the plugin marketplace; do not add a duplicate MCP config.')
         session, _ = account.session(package_version())

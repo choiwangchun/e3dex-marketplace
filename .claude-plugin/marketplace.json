@@ -8,7 +8,7 @@
     {
       "name": "e3dex",
       "source": "./plugins/e3dex",
-      "description": "AVEVA E3D PIPE·Structures·장비·PLAN 작업 도구 (관리자 승인 계정 전용)"
+      "description": "AVEVA E3D PIPE·Structures·장비·PLAN 작업 도구 (유료 구독 또는 수동 이용 권한 필요)"
     }
   ]
 }
