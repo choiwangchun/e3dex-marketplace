@@ -29,7 +29,7 @@ INSTRUCTIONS = (
     'Paddle billing for the user; the user completes payment in their browser. Retry the original tool after payment. '
     'ACCESS_REVOKED and SERVER_UNREACHABLE must be reported, never worked around. ' + COMMON_INSTRUCTIONS)
 FREE_INSTRUCTIONS = (
-    'E3DEX Free needs no sign-in and no payment: on the first tool call this PC links itself to the administrator\'s '
+    'E3DEX Open needs no sign-in and no payment: on the first tool call this PC links itself to the administrator\'s '
     'server automatically. Never ask the user to sign in, pay or open a sign-in page. Generation (pipe, structures, '
     'equipment, PLAN) runs on that server. Before any E3D setup or modeling work call e3d_guide and follow the returned '
     'instructions (skip any sign-in or payment steps they mention); call it again with a topic to read a referenced '
@@ -47,7 +47,7 @@ ACCOUNT_TOOL = {
                     'required': ['action'], 'additionalProperties': False},
 }
 FREE_ACCOUNT_TOOL = {**ACCOUNT_TOOL, 'description': (
-    'E3DEX Free connection of this PC (no sign-in, no payment). status: show the connection and versions. '
+    'E3DEX Open connection of this PC (no sign-in, no payment). status: show the connection and versions. '
     'login: link this PC now (it also links itself on the first tool call). billing: not needed. '
     'logout: disconnect this PC; it links again on the next tool call.')}
 GUIDE_TOOL = {
@@ -112,7 +112,7 @@ class Proxy:
         if method == 'initialize':
             result = {'protocolVersion': params.get('protocolVersion', '2025-06-18'),
                       'capabilities': {'tools': {'listChanged': False}},
-                      'serverInfo': {'name': 'e3dex-free' if self.free else 'e3dex', 'version': package_version() or LOADER_VERSION},
+                      'serverInfo': {'name': 'e3dex-open' if self.free else 'e3dex', 'version': package_version() or LOADER_VERSION},
                       'instructions': FREE_INSTRUCTIONS if self.free else INSTRUCTIONS}
         elif method == 'ping':
             result = {}

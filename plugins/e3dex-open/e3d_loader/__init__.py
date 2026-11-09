@@ -38,7 +38,7 @@ def load_config():
     local = parts.hostname in ('127.0.0.1', 'localhost', '::1')
     if parts.scheme != 'https' and not (parts.scheme == 'http' and local):
         raise LoaderError('CONFIG_ERROR', 'The approval server must use https: ' + url)
-    # access 'free': the free plugin (e3dex-free) links the PC without sign-in.
+    # access 'free': the free plugin (e3dex-open) links the PC without sign-in.
     return {'server_url': url, 'client_id': config.get('client_id', 'e3dex'), 'access': config.get('access', 'account')}
 
 

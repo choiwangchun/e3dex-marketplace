@@ -4,7 +4,7 @@ AVEVA E3D PIPE·Structures·장비·PLAN 작업 도구입니다. 지원: **Claud
 
 | 플러그인 | 버전 | 사용 조건 |
 |---|---|---|
-| `e3dex-free` | 1.0.0 | 무료 · 로그인 없이 바로 사용 |
+| `e3dex-open` | 1.0.0 | 무료 · 로그인 없이 바로 사용 |
 | `e3dex` | 4.4.1 | 로그인 + Paddle 정기 구독 또는 관리자가 부여한 수동 이용 권한 |
 
 두 플러그인은 같은 기능입니다. 한 PC에는 둘 중 하나만 설치하세요.
@@ -13,7 +13,7 @@ AVEVA E3D PIPE·Structures·장비·PLAN 작업 도구입니다. 지원: **Claud
 
 ```
 /plugin marketplace add choiwangchun/e3dex-marketplace
-/plugin install e3dex-free@e3dex
+/plugin install e3dex-open@e3dex
 /plugin install e3dex@e3dex
 ```
 
@@ -24,7 +24,7 @@ AVEVA E3D PIPE·Structures·장비·PLAN 작업 도구입니다. 지원: **Claud
 
 ```
 codex plugin marketplace add choiwangchun/e3dex-marketplace
-codex plugin add e3dex-free@e3dex
+codex plugin add e3dex-open@e3dex
 codex plugin add e3dex@e3dex
 ```
 
@@ -33,7 +33,7 @@ codex plugin add e3dex@e3dex
 
 ## 처음 사용할 때
 
-**무료 (`e3dex-free`)**: 설치 후 새 채팅에서 "E3DEX 초기 설정해줘"라고 요청합니다. 로그인 없이 바로 연결됩니다.
+**무료 (`e3dex-open`)**: 설치 후 새 채팅에서 "E3DEX 초기 설정해줘"라고 요청합니다. 로그인 없이 바로 연결됩니다.
 
 **구독 (`e3dex`)**:
 

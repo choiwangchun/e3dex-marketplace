@@ -5,10 +5,10 @@
   },
   "plugins": [
     {
-      "name": "e3dex-free",
+      "name": "e3dex-open",
       "source": {
         "source": "local",
-        "path": "./plugins/e3dex-free"
+        "path": "./plugins/e3dex-open"
       },
       "policy": {
         "installation": "AVAILABLE",

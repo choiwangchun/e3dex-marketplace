@@ -47,7 +47,9 @@ def machine_id(folder):
             raw = 'random:' + uuid.uuid4().hex
             folder.mkdir(parents=True, exist_ok=True)
             path.write_text(raw, encoding='ascii')
-    return hashlib.sha256(('e3dex-free\0' + raw).encode('utf-8')).hexdigest()
+    # Fixed salt from the plugin's first name (e3dex-free): changing it would give every PC a new id
+    # and lift the administrator's blocks.
+    return hashlib.sha256(('e3dex-' + 'free\0' + raw).encode('utf-8')).hexdigest()
 
 
 def device_name():

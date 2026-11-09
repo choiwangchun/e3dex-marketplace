@@ -1,5 +1,5 @@
 {
-  "name": "e3dex-free",
+  "name": "e3dex-open",
   "version": "1.0.0",
   "description": "열린 프로젝트·작업 DB를 선택하는 PIPE·Structures·장비·PLAN 통합 E3D 도구 (무료, 로그인 없음)",
   "author": {
@@ -9,7 +9,7 @@
   "mcpServers": "./.mcp.json",
   "requires_local_executor": true,
   "interface": {
-    "displayName": "E3DEX Free",
+    "displayName": "E3DEX Open",
     "shortDescription": "프로젝트 선택형 E3D 통합 하네스 (무료, 로그인 없음)",
     "longDescription": "현재 열린 E3D 프로젝트·MDB와 쓰기 가능한 DB·SITE를 읽고 사용자가 선택한 위치에 작업합니다. PIPE 끝단 처리, GS 구조·브레이싱, 장비 CTOR·VP 노즐, PLAN/DXF 기능을 제공합니다. 정확한 세션과 대상 DB를 실행 직전에 검증합니다. Windows x64 / E3D 2.1 전용입니다. 무료이며 로그인 없이 설치하면 바로 연결됩니다. 배관·구조·장비·PLAN 생성은 관리 서버에서 실행되어 항상 최신 버전이 적용됩니다.",
     "developerName": "E3DEX Team",

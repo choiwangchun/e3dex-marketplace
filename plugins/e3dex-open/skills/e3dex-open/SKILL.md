@@ -1,11 +1,11 @@
 ---
-name: e3dex-free
-description: Set up E3DEX Free and perform user-selected-project PIPE, Structures, equipment and PLAN work, with no sign-in or payment. Use for specification-based routing, TEE and flange assembly, endpoint repair, clashes, GS structural columns, sloped beams and braces, equipment primitives and VP nozzle naming, ID POSITION, PLAN profiles and DXF export, initial setup or connection checks.
+name: e3dex-open
+description: Set up E3DEX Open and perform user-selected-project PIPE, Structures, equipment and PLAN work, with no sign-in or payment. Use for specification-based routing, TEE and flange assembly, endpoint repair, clashes, GS structural columns, sloped beams and braces, equipment primitives and VP nozzle naming, ID POSITION, PLAN profiles and DXF export, initial setup or connection checks.
 ---
 
-# E3DEX Free
+# E3DEX Open
 
-E3DEX Free needs no sign-in and no payment. On the first tool call this PC links itself to the
+E3DEX Open needs no sign-in and no payment. On the first tool call this PC links itself to the
 administrator's server, which is checked again on every tool call. Generation (pipe, structures,
 equipment, PLAN) runs on that server and returns macros that the local tools then run in E3D.
 The full workflow instructions live on the server.
