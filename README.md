@@ -1,31 +1,30 @@
 # E3DEX 플러그인 마켓플레이스
 
-현재 열린 E3D 프로젝트·MDB와 쓰기 가능한 DB·SITE를 읽고 사용자가 선택한 위치에 작업합니다. PIPE 끝단 처리, GS 구조·브레이싱, 장비 CTOR·VP 노즐, PLAN/DXF 기능을 제공합니다. 정확한 세션과 대상 DB를 실행 직전에 검증합니다. Windows x64 / E3D 2.1 전용입니다. 활성 Paddle 정기 구독 또는 관리자가 부여한 수동 이용 권한이 필요하며, 배관·구조·장비·PLAN 생성은 관리 서버에서 실행되어 항상 최신 버전이 적용됩니다.
+AVEVA E3D PIPE·Structures·장비·PLAN 작업 도구입니다. 지원: **Claude Code**, **Codex** (Windows x64 + AVEVA E3D 2.1)
 
-- 지원: **Claude Code**, **Codex** (Windows x64 + AVEVA E3D 2.1)
-- 플러그인: `e3dex` 4.4.1
-- 활성 Paddle 정기 구독 또는 관리자가 부여한 수동 이용 권한이 필요합니다: https://choi-macmini-1.tailf0b78b.ts.net/signup
+| 플러그인 | 버전 | 사용 조건 |
+|---|---|---|
+| `e3dex-free` | 1.0.0 | 무료 · 로그인 없이 바로 사용 |
+| `e3dex` | 4.4.1 | 로그인 + Paddle 정기 구독 또는 관리자가 부여한 수동 이용 권한 |
+
+두 플러그인은 같은 기능입니다. 한 PC에는 둘 중 하나만 설치하세요.
 
 ## Claude Code
 
 ```
-/plugin install e3dex --marketplace choiwangchun/e3dex-marketplace
-```
-
-(Claude Code 2.1.275 이상은 위 한 줄로 끝납니다. 이전 버전은 아래 두 줄)
-
-```
 /plugin marketplace add choiwangchun/e3dex-marketplace
+/plugin install e3dex-free@e3dex
 /plugin install e3dex@e3dex
 ```
 
-터미널에서는 `claude plugin marketplace add choiwangchun/e3dex-marketplace` 후 `claude plugin install e3dex@e3dex`.
+터미널에서는 `claude plugin marketplace add choiwangchun/e3dex-marketplace` 후 `claude plugin install <플러그인>@e3dex`.
 업데이트: `/plugin marketplace update e3dex`.
 
 ## Codex
 
 ```
 codex plugin marketplace add choiwangchun/e3dex-marketplace
+codex plugin add e3dex-free@e3dex
 codex plugin add e3dex@e3dex
 ```
 
@@ -34,9 +33,13 @@ codex plugin add e3dex@e3dex
 
 ## 처음 사용할 때
 
+**무료 (`e3dex-free`)**: 설치 후 새 채팅에서 "E3DEX 초기 설정해줘"라고 요청합니다. 로그인 없이 바로 연결됩니다.
+
+**구독 (`e3dex`)**:
+
 1. https://choi-macmini-1.tailf0b78b.ts.net/signup 에서 가입하고 Paddle 정기 구독을 결제합니다. 관리자가 수동 이용 권한을 부여한 계정은 결제 없이 사용할 수 있습니다.
 2. 새 채팅에서 "E3DEX 로그인해줘" → 브라우저에서 코드를 확인하고 **연결하기**.
 3. 처음 쓰는 PC라면 "E3DEX 초기 설정해줘"라고 요청합니다.
 
-Claude Code와 Codex를 같은 PC에서 함께 쓰면 로그인은 한 번만 하면 됩니다.
+초기 설정은 E3D를 닫은 상태에서 E3D 폴더에 E3DEX 애드인을 설치합니다 (Windows 관리자 승인이 필요할 수 있음).
 배관·구조·장비·PLAN 생성은 관리 서버에서 실행되며, 이 저장소에는 E3D 연결 부분만 들어 있습니다.

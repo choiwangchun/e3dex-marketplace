@@ -1,0 +1,11 @@
+IMPORT 'EhNativeBridge'
+HANDLE (1000,0)
+  !importError = !!error.text
+  IF (!importError.lowcase().occurs('already loaded') EQ 0) THEN
+    RETURN ERROR 1 |Independent bridge import failed: $!importError|
+  ENDIF
+ENDHANDLE
+USING NAMESPACE 'E3DBridge'
+!!e3dBridgeNative = object EhNativeBridge()
+!endpoint = !!e3dBridgeNative.Start()
+$P Independent E3D bridge: $!endpoint

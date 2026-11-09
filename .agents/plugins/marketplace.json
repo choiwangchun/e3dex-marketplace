@@ -5,6 +5,18 @@
   },
   "plugins": [
     {
+      "name": "e3dex-free",
+      "source": {
+        "source": "local",
+        "path": "./plugins/e3dex-free"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "e3dex",
       "source": {
         "source": "local",
