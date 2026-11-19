@@ -3,6 +3,7 @@ param(
     [string]$E3DRoot,
     [ValidateSet('Design','Draw','Both')][string]$Module='Design',
     [switch]$Elevate,
+    [switch]$ExistingDllOnly,
     [string]$ResultFile
 )
 $ErrorActionPreference='Stop'
@@ -24,6 +25,8 @@ try {
         if (-not $contained.StartsWith($package.TrimEnd('\')+'\',[StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe manifest path.' }
         if ((Get-FileHash -LiteralPath $contained).Hash -ne $entry.Value) { throw ('Package integrity failed: '+$entry.Name) }
     }
+    $bridgeVersion=[Reflection.AssemblyName]::GetAssemblyName((Join-Path $package 'e3d-addin\EhNativeBridge.dll')).Version
+    if ($bridgeVersion -lt [Version]'3.2.0.0') { throw 'Build and package the authenticated native bridge (3.2.0 or newer) before setup.' }
     $candidates=New-Object Collections.Generic.List[string]
     if ($E3DRoot) { $candidates.Add([IO.Path]::GetFullPath($E3DRoot).TrimEnd('\')) }
     else {
@@ -51,6 +54,74 @@ try {
     $version=(Get-Item -LiteralPath $exe).VersionInfo.FileVersion
     if ($version -notmatch '^2\.1\.') {
         Finish @{status='UNSUPPORTED_E3D';ready=$false;e3d_root=$root;version=$version;next_action='This DLL is validated for E3D 2.1 only.'}; exit 0
+    }
+    if ($ExistingDllOnly) {
+        # Automatic upgrades apply only to an existing, older managed bridge.
+        $target=Join-Path $root 'EhNativeBridge.dll'
+        $source=Join-Path $package 'e3d-addin\EhNativeBridge.dll'
+        $expected=$manifest.files.'e3d-addin/EhNativeBridge.dll'
+        if (-not $expected -or (Get-FileHash -LiteralPath $source).Hash -ne $expected) { throw 'Unverified DLL payload.' }
+        $result=@{status='NO_EXISTING_DLL'; e3d_root=$root}
+        if (-not (Test-Path -LiteralPath $target -PathType Leaf)) { Finish $result; exit 0 }
+        if ((Get-FileHash -LiteralPath $target).Hash -eq $expected) { $result.status='INSTALLED'; Finish $result; exit 0 }
+        $old=[Reflection.AssemblyName]::GetAssemblyName($target)
+        $new=[Reflection.AssemblyName]::GetAssemblyName($source)
+        if ($old.Name -ne $new.Name -or $old.Version -ge $new.Version) {
+            $result.status='REVIEW_DLL_VERSION'; Finish $result; exit 0
+        }
+        function RunningE3D {
+            Get-Process des,draw -ErrorAction SilentlyContinue | Where-Object {
+                -not $_.Path -or [IO.Path]::GetFullPath((Split-Path $_.Path -Parent)) -eq $root
+            } | Select-Object Id,ProcessName
+        }
+        $result.running=@(RunningE3D)
+        if ($result.running.Count) { $result.status='NEEDS_E3D_CLOSED'; Finish $result; exit 0 }
+        $result.status='NEEDS_INSTALL'
+        if ($Action -eq 'inspect') { Finish $result; exit 0 }
+        $mutex=New-Object Threading.Mutex($false,'Local\E3DBridgeInstaller')
+        $locked=$false
+        $temp=$null
+        try {
+            try { $locked=$mutex.WaitOne(10000) } catch [Threading.AbandonedMutexException] { $locked=$true }
+            if (-not $locked) { throw 'Another E3DEX installer is active.' }
+            if ((Get-FileHash -LiteralPath $target).Hash -eq $expected) { $result.status='INSTALLED' }
+            else {
+                $current=[Reflection.AssemblyName]::GetAssemblyName($target)
+                if ($current.FullName -ne $old.FullName) { throw 'Installed DLL changed during upgrade. Inspect again.' }
+                $id=[guid]::NewGuid().ToString('N')
+                $temp=Join-Path $root ('.EhNativeBridge-'+$id+'.tmp')
+                [IO.File]::Copy($source,$temp)
+                if ((Get-FileHash -LiteralPath $temp).Hash -ne $expected) { throw 'Copied DLL failed integrity check.' }
+                $result.running=@(RunningE3D)
+                if ($result.running.Count) { $result.status='NEEDS_E3D_CLOSED' }
+                else {
+                    $backup=Join-Path $root ('E3DBridgeBackups\dll-'+$id+'\EhNativeBridge.dll')
+                    [void][IO.Directory]::CreateDirectory((Split-Path $backup -Parent))
+                    [IO.File]::Replace($temp,$target,$backup)
+                    $result.backup=$backup
+                    $result.status='UPDATED'
+                }
+            }
+        } catch [UnauthorizedAccessException] {
+            $result.status='NEEDS_ADMIN'
+        } finally {
+            if ($temp -and [IO.File]::Exists($temp)) { [IO.File]::Delete($temp) }
+            if ($locked) { $mutex.ReleaseMutex() }
+            $mutex.Dispose()
+        }
+        if ($result.status -eq 'NEEDS_ADMIN' -and $Elevate) {
+            # The elevated child rechecks the package, target identity and open processes.
+            $arguments=@('-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',('"'+$PSCommandPath+'"'),
+                         '-Action','apply','-ExistingDllOnly','-E3DRoot',('"'+$root+'"'))
+            try {
+                $child=Start-Process powershell.exe -Verb RunAs -WindowStyle Hidden -ArgumentList $arguments -PassThru -Wait
+                if ($child.ExitCode -eq 0 -and (Get-FileHash -LiteralPath $target).Hash -eq $expected) { $result.status='UPDATED' }
+                elseif (@(RunningE3D).Count) { $result.status='NEEDS_E3D_CLOSED'; $result.running=@(RunningE3D) }
+            } catch [System.ComponentModel.Win32Exception] {
+                if ($_.Exception.NativeErrorCode -ne 1223) { throw }
+            }
+        }
+        Finish $result; exit 0
     }
     $xmlNames=@('DesignAddins.xml')
     if ($Module -ne 'Design') { $xmlNames+='DrawAddins.xml' }

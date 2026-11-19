@@ -6,6 +6,7 @@ import concurrent.futures
 import contextlib
 import ctypes
 from ctypes import wintypes
+import http.client
 import json
 import os
 from pathlib import Path
@@ -13,7 +14,6 @@ import re
 import socket
 import subprocess
 import sys
-import urllib.request
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
 from e3d_bridge.errors import BridgeError, InputError
@@ -71,8 +71,8 @@ def load_session(session_id, registry=REGISTRY):
         raise BridgeError('STALE_SESSION', 'Stale session registration; PID belongs to another process')
     if not re.fullmatch(r'http://127\.0\.0\.1:188[0-9][02468]', record['http_url']):
         raise InputError('INVALID_SESSION', 'Session endpoint is outside the local bridge port range')
-    if record.get('token_required'):
-        raise BridgeError('SESSION_AUTH_UNSUPPORTED', 'This session requires an E3D-side token; it is not supported by the session backend')
+    if record.get('token_required') is not True or not re.fullmatch(r'[0-9a-f]{32}', str(record.get('credential_id', ''))):
+        raise BridgeError('BRIDGE_UPDATE_REQUIRED', 'Install the authenticated native bridge and restart E3D')
     if record.get('engine') != 'e3d-native':
         raise BridgeError('LEGACY_BRIDGE_UNSUPPORTED', 'Version 3 requires EhNativeBridge; install/start the independent bridge in the selected E3D window')
     return record
@@ -116,13 +116,32 @@ def verify_process(record):
         raise BridgeError('STALE_SESSION', 'Stale session registration; PID belongs to another process')
 
 
-def get_context(record, timeout=4):
-    verify_listener_owner(record)
-    verify_process(record)
-    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+def native_request(record, path, payload=None, timeout=4):
+    # Connect before checking ownership; send credentials only on that same socket.
+    port = int(record['http_url'].rsplit(':', 1)[1])
+    connection = http.client.HTTPConnection('127.0.0.1', port, timeout=timeout)
     try:
-        with opener.open(record['http_url'] + '/context', timeout=timeout) as response:
-            data = json.loads(response.read().decode('utf-8-sig'))
+        connection.connect()
+        verify_listener_owner(record)
+        verify_process(record)
+        key_path = REGISTRY / (record['session_id'] + '.' + record['credential_id'] + '.key')
+        token = key_path.read_text(encoding='ascii')
+        if not re.fullmatch(r'[A-Za-z0-9+/]{43}=', token):
+            raise BridgeError('INVALID_SESSION', 'Invalid owner credential')
+        body = None if payload is None else json.dumps(payload).encode('utf-8')
+        connection.request('GET' if body is None else 'POST', path, body=body,
+                           headers={'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'})
+        response = connection.getresponse()
+        if response.status != 200:
+            raise BridgeError('BRIDGE_UNAVAILABLE', 'Native request rejected (HTTP %d)' % response.status)
+        return json.loads(response.read().decode('utf-8-sig'))
+    finally:
+        connection.close()
+
+
+def get_context(record, timeout=4):
+    try:
+        data = native_request(record, '/context', timeout=timeout)
     except (OSError, ValueError) as exc:
         raise BridgeError('BRIDGE_UNAVAILABLE', 'Context request failed: ' + str(exc)) from exc
     if data.get('ok') is not True:

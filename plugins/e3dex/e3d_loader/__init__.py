@@ -1,11 +1,11 @@
-"""E3DEX plugin loader: approved-account check and calls to the server-side core."""
+"""E3DEX plugin loader: account (or free PC) check and calls to the server-side core."""
 import json
 import os
 from pathlib import Path
 import re
 from urllib.parse import urlsplit
 
-LOADER_VERSION = '2.1.0'
+LOADER_VERSION = '2.2.0'
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -38,7 +38,8 @@ def load_config():
     local = parts.hostname in ('127.0.0.1', 'localhost', '::1')
     if parts.scheme != 'https' and not (parts.scheme == 'http' and local):
         raise LoaderError('CONFIG_ERROR', 'The approval server must use https: ' + url)
-    return {'server_url': url, 'client_id': config.get('client_id', 'e3dex')}
+    # access 'free': the free plugin (e3dex-open) links the PC without sign-in.
+    return {'server_url': url, 'client_id': config.get('client_id', 'e3dex'), 'access': config.get('access', 'account')}
 
 
 def data_dir():

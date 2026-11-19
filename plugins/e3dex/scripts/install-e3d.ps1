@@ -3,6 +3,8 @@ $ErrorActionPreference='Stop'
 $root=[IO.Path]::GetFullPath($E3DRoot).TrimEnd('\')
 $payload=Join-Path (Split-Path $PSScriptRoot -Parent) 'e3d-addin'
 $files=[ordered]@{'EhNativeBridge.dll'='EhNativeBridge.dll';'NativeBridge\start.pmlmac'='start.pmlmac'}
+$bridgeVersion=[Reflection.AssemblyName]::GetAssemblyName((Join-Path $payload 'EhNativeBridge.dll')).Version
+if($bridgeVersion -lt [Version]'3.2.0.0'){throw 'Build and package the authenticated native bridge before installation.'}
 $xmlFiles=@('DesignAddins.xml')
 if($IncludeDraw){$xmlFiles+='DrawAddins.xml'}
 foreach($item in $files.GetEnumerator()){

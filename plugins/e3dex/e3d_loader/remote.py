@@ -48,13 +48,7 @@ def _post(path, body, timeout):
         if status == 401 and attempt == 0:
             token = account.access_token(force_refresh=True)
             continue
-        if status == 402:
-            account._fail('PAYMENT_REQUIRED')
-        if status == 403:
-            account._fail('ACCESS_REVOKED' if payload.get('error') == 'access_revoked' else 'NOT_APPROVED',
-                          payload.get('error_description'))
-        if status == 401:
-            account._fail('LOGIN_REQUIRED')
+        account.refused(status, payload)
         raise LoaderError('SERVER_ERROR', '서버 처리 실패 (HTTP %d): %s' % (status, payload.get('error_description', '')))
     account._fail('LOGIN_REQUIRED')
 
@@ -182,7 +176,7 @@ def remote_lint(sources, run_dir, effect):
     results = []
     for item in payload['lint']:
         profile = item['profile']
-        (Path(run_dir) / ('lint-%s.stdout.txt' % profile)).write_bytes(localizer.text(item.get('stdout') or '').encode('utf-8'))
+        (Path(run_dir) / ('lint-%s.stdout.txt' % profile)).write_bytes(localizer.text(item.get('stdout') or item.get('report') or '').encode('utf-8'))
         (Path(run_dir) / ('lint-%s.stderr.txt' % profile)).write_bytes(localizer.text(item.get('stderr') or '').encode('utf-8'))
         if item.get('report') is not None:
             (Path(run_dir) / ('lint-%s.json' % profile)).write_text(localizer.text(item['report']), encoding='utf-8')
@@ -202,11 +196,7 @@ def guide(topic=None):
         if status == 401 and attempt == 0:
             token = account.access_token(force_refresh=True)
             continue
-        if status == 402:
-            account._fail('PAYMENT_REQUIRED')
-        if status == 403:
-            account._fail('ACCESS_REVOKED' if payload.get('error') == 'access_revoked' else 'NOT_APPROVED',
-                          payload.get('error_description'))
+        account.refused(status, payload)
         if status == 400:
             raise LoaderError('INVALID_REQUEST', payload.get('error_description', 'Unknown topic'))
         raise LoaderError('SERVER_ERROR', '가이드를 가져오지 못했습니다 (HTTP %d).' % status)

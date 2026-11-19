@@ -108,20 +108,65 @@ def create_server(port, token, service=None):
     return server
 
 
+def owner_token_file():
+    import os
+    from pathlib import Path
+    if os.name == 'nt':
+        # The former relay token could have inherited read access from a shared install.
+        # Use an owner-only token in the profile, for the same-user native bridge.
+        import subprocess
+        path = Path(os.environ['LOCALAPPDATA']) / 'AVEVA/E3DBridge/api-owner-token.txt'
+        path.parent.mkdir(parents=True, exist_ok=True)
+        script = r"""
+$ErrorActionPreference='Stop'
+$p=$env:E3DEX_OWNER_TOKEN_PATH
+$sid=[Security.Principal.WindowsIdentity]::GetCurrent().User
+if (![IO.File]::Exists($p)) {
+    $acl=New-Object Security.AccessControl.FileSecurity
+    $acl.SetOwner($sid)
+    $acl.SetAccessRuleProtection($true,$false)
+    $acl.AddAccessRule((New-Object Security.AccessControl.FileSystemAccessRule($sid,'FullControl','Allow')))
+    $f=[IO.FileStream]::new($p,[IO.FileMode]::CreateNew,[Security.AccessControl.FileSystemRights]::Write,
+        [IO.FileShare]::None,4096,[IO.FileOptions]::None,$acl)
+    try {
+        $bytes=New-Object byte[] 48
+        $rng=[Security.Cryptography.RandomNumberGenerator]::Create()
+        try { $rng.GetBytes($bytes) } finally { $rng.Dispose() }
+        $out=[Text.Encoding]::ASCII.GetBytes([Convert]::ToBase64String($bytes))
+        $f.Write($out,0,$out.Length)
+    } finally { $f.Dispose() }
+}
+$acl=[IO.File]::GetAccessControl($p)
+if ($acl.GetOwner([Security.Principal.SecurityIdentifier]).Value -ne $sid.Value -or !$acl.AreAccessRulesProtected) {
+    throw 'Invalid owner token ACL'
+}
+foreach ($rule in $acl.GetAccessRules($true,$true,[Security.Principal.SecurityIdentifier])) {
+    if ($rule.IdentityReference.Value -ne $sid.Value) { throw 'Shared owner token ACL' }
+}
+"""
+        powershell = Path(os.environ['SystemRoot']) / 'System32/WindowsPowerShell/v1.0/powershell.exe'
+        subprocess.run([str(powershell), '-NoProfile', '-NonInteractive', '-Command', script], check=True,
+                       env={**os.environ, 'E3DEX_OWNER_TOKEN_PATH': str(path)})
+        return path
+
+    path = Path(os.environ.get('E3D_BRIDGE_DATA_DIR', Path.home() / '.e3dex')) / 'api-owner-token.txt'
+    path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+    try:
+        fd = os.open(path, os.O_WRONLY | os.O_EXCL | os.O_CREAT, 0o600)
+    except FileExistsError:
+        if path.is_symlink() or path.stat().st_uid != os.getuid() or path.stat().st_mode & 0o077:
+            raise BridgeError('CONFIG_ERROR', 'The local API token must be private to its owner')
+    else:
+        with os.fdopen(fd, 'w', encoding='ascii') as f:
+            f.write(secrets.token_urlsafe(48))
+    return path
+
+
 def serve(port=None):
     api = json.loads((ROOT / 'bridge.json').read_text(encoding='utf-8-sig'))['api']
     if api.get('host') != '127.0.0.1':
         raise BridgeError('CONFIG_ERROR', 'The JSON API must bind to 127.0.0.1')
-    import os
-    from pathlib import Path
-    token_path = Path(os.environ['E3D_BRIDGE_DATA_DIR']) / 'api-token.txt' if os.environ.get('E3D_BRIDGE_DATA_DIR') else ROOT / api['token_file']
-    token_path.parent.mkdir(parents=True, exist_ok=True)
-    if not token_path.exists():
-        try:
-            with token_path.open('x', encoding='utf-8') as stream:
-                stream.write(secrets.token_urlsafe(48) + '\n')
-        except FileExistsError:
-            pass
+    token_path = owner_token_file()
     server = create_server(api['port'] if port is None else port, token_path.read_text(encoding='utf-8').strip())
     print(json.dumps({'event': 'listening', 'url': f'http://127.0.0.1:{server.server_port}',
                       'token_file': str(token_path)}), file=sys.stderr, flush=True)

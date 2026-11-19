@@ -28,6 +28,13 @@ def main(argv):
             from .proxy import Proxy
             Proxy(config, folder).serve()
             return 0
+        if command == '_upgrade_dll':
+            if len(argv) != 2:
+                raise LoaderError('INVALID_REQUEST', 'Expected an existing E3D installation path.')
+            from .proxy import Proxy
+            from .bridge_update import run_worker
+            run_worker(folder, argv[1], Proxy(config, folder).gate)
+            return 0
         account = Account(config, folder, Http(config['server_url']))
         if command == 'login':
             def show(pending):
@@ -52,6 +59,9 @@ def main(argv):
                   'app_version': (session.get('app') or {}).get('version'), 'plugin_version': package_version(),
                   'server': config['server_url']})
             return 0
+        if command in ('status', 'list', 'context', 'run', 'check'):
+            from .bridge_update import ensure_current
+            ensure_current(folder)
         if command == 'check':
             sys.path.insert(0, str(ROOT / 'scripts'))
             from check import main as check

@@ -44,6 +44,8 @@ class Bridge:
             raise ValueError('Use a local HTTP bridge origin, e.g. http://127.0.0.1:18790')
         if timeout <= 0:
             raise ValueError('Timeout must be positive')
+        if parsed.port is not None and 18800 <= parsed.port < 18900 and not session_id:
+            raise ValueError('Native bridge requests require --session-id from session discovery')
         self.url = url.rstrip('/')
         self.timeout = timeout
         self.session_id = session_id
@@ -74,6 +76,14 @@ class Bridge:
                 command = payload.get('command', '')
                 if command.startswith('$M "') and command.endswith('"'):
                     payload['macro_sha256'] = hashlib.sha256(Path(command[4:-1]).read_bytes()).hexdigest()
+        if self.session_id:
+            sys.path.insert(0, str(ROOT.parents[1]))
+            from e3d_bridge.service import load_backend
+            backend = load_backend()
+            record = backend.load_session(self.session_id)
+            if record['http_url'] != self.url:
+                raise ValueError('Session endpoint changed')
+            return backend.native_request(record, path, payload, self.timeout)
         body = None if payload is None else json.dumps(payload).encode('utf-8')
         request = urllib.request.Request(self.url + path, data=body,
                                          headers={'Content-Type': 'application/json; charset=utf-8'})
@@ -455,7 +465,7 @@ def main(argv=None):
             print((args.directory / 'report.md').read_text(encoding='utf-8'))
             return 0
         if args.action == 'status':
-            bridge = Bridge(args.url, args.timeout)
+            bridge = Bridge(args.url, args.timeout, args.session_id)
             print(json.dumps({'health': bridge.request('/health'), 'context': bridge.context()},
                              ensure_ascii=False, indent=2))
             return 0
