@@ -1,10 +1,10 @@
 {
   "algorithm": "SHA256",
   "files": {
-    ".claude-plugin/plugin.json": "d09864d410a034fd38b29ba41d070dc98ebbd5671711c3ff6c56357b02b58e77",
-    ".codex-plugin/plugin.json": "e23691f4065d82b5b60311147feb688959bad0926c3b993c01c0cc425d5c0b62",
+    ".claude-plugin/plugin.json": "85982b58b0e6913d30d1fca8160e662744f564c1b9578aebfe1123c85ebffbfc",
+    ".codex-plugin/plugin.json": "6dd2c1f7cc38dfb95c9d804940096b3dabc023ea7f90cb19bbcaf0de2419498e",
     ".mcp.json": "7d5406e701d6af57444a2b42dad959649769d4fa225ac1644b871bf86ead4235",
-    "README.ko.md": "1711618d1807af1f0985f3ba09b2d3fbca342107c73e6db5112ab3513a564ed7",
+    "README.ko.md": "52cc1df56570f23571bb4dbbf36a57b0eb98c73176f767f95ca435826879cc87",
     "bridge.json": "53ea9ef2f751949b848a10ea8cf68baaf721bf168715596ba23361e2614bc46f",
     "components/harness/bridge/multi/probe.pmlmac": "2f10f9023f763c34273cfe7246d1d430b1b9928bd6e48d637e353327318c82ce",
     "components/harness/bridge/multi/sessions.py": "7e04bcfd3c80dacb024fd669b3bfd85f21cf08c5869862e57a4275edb98bbce7",
@@ -31,7 +31,7 @@
     "e3d_loader/remote.py": "3a4cdebfcf1b9e5e818b9bb747bc90cd65689db6cc634ba0cb9d180d758bb683",
     "e3d_loader/secure_store.py": "074ffb7ae2f072582f99b8bf113676a8829f6d0dd5b74e059ee63813f429f30d",
     "mcp.json": "c42cb1308983c1d9e6967a46099e24d4f01bc2a36b86fca02d52c2d06c191923",
-    "plugin.json": "b084774265d342e9aec01a8d43c5170ed3b8a24206d40f9cb75ad07da4c1ca8a",
+    "plugin.json": "bae0da49eac1ffbe3786586c81beb674eb49fd19f0eecb027d1510efa352fbc8",
     "runtime/PYTHON-LICENSE.txt": "62bec384df47b0328307db41455ff6ea2559e5546b394ac69148561b21703120",
     "runtime/python-3.13.13-embed-amd64.zip.sigstore": "cc5cebfe4f853a0f0efb330a59c0f5c349eab9e24ef3f2546974244245b09b8b",
     "runtime/python.json": "5bb7885b6cf5536a51c131695fe34ea9fabc8732a07c208ddb463032b012859a",
@@ -41,6 +41,12 @@
     "scripts/launch.py": "4ea5638ed8e113c87d1a7d50e93d3ed3b7717bdc10102f94535e39e51d1535fe",
     "scripts/runtime.ps1": "799b5b86b434983d4140eba1530dba1693b027ab2ece433e9b615d83c8b3099c",
     "scripts/setup.ps1": "1ab325807928fbe88be091614a6aaf8dda27f2cc5505994c4d8e7dcd794617cf",
+    "skills/e3d-pipe-design/SKILL.md": "54d07c036b5f0810a7e1aff52dd04939189d8429574c2d1ad103f4f6daa668a4",
+    "skills/e3d-pipe-design/agents/openai.yaml": "127d8b02cc80cd8a66d00ac8807cef6af2da43877a424d798a3fc67746be4146",
+    "skills/e3d-pipe-design/references/handoff.md": "e8bc6af101245ba925431e38fbc3d20d8b914d70e7ab7b113d6874a003190500",
+    "skills/e3d-pipe-design/references/maintenance.md": "5461ed329c40f8e4609dad2f54f8710c8e177e7d7aa071c16915c0266b0644fb",
+    "skills/e3d-pipe-design/references/routing-example.md": "8f598648cb39c1d5b4c6fea5848c9b349277b222805668ca86480ab001b36abc",
+    "skills/e3d-pipe-design/references/routing.md": "11601f317c83f2141fe91de68f2efb12872b334273175c5d49f6cd44ad4ef0b0",
     "skills/e3dex/SKILL.md": "075a237011e45ad932f3e138a979ba5f9f94843693823c009d3c17e42d3f4ae1"
   }
 }
