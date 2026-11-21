@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 from urllib.parse import urlsplit
 
-LOADER_VERSION = '2.2.0'
+LOADER_VERSION = '2.3.0'
 ROOT = Path(__file__).resolve().parents[1]
 
 

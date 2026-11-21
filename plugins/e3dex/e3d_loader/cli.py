@@ -21,6 +21,9 @@ def emit(value):
 
 def main(argv):
     command = argv[0] if argv else 'status'
+    if command == 'hook':  # the Stop hook of Claude Code / Codex: conversation sharing, only for PCs whose user agreed
+        from .collect import run_hook
+        return run_hook(argv[1:])
     try:
         config = load_config()
         folder = data_dir()

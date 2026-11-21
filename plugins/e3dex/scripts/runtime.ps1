@@ -4,6 +4,7 @@ Import-Module (Join-Path $PSHOME 'Modules\Microsoft.PowerShell.Utility') -Force 
 Import-Module (Join-Path $PSHOME 'Modules\Microsoft.PowerShell.Management') -Force -ErrorAction Stop
 Import-Module (Join-Path $PSHOME 'Modules\Microsoft.PowerShell.Archive') -Force -ErrorAction Stop
 function Get-E3DBridgePython {
+    param([switch]$NoInstall)
     $runtime = Join-Path (Split-Path $PSScriptRoot -Parent) 'runtime'
     $manifest = Get-Content -LiteralPath (Join-Path $runtime 'python.json') -Raw | ConvertFrom-Json
     if (-not [Environment]::Is64BitOperatingSystem) { throw 'Windows x64 is required.' }
@@ -11,6 +12,7 @@ function Get-E3DBridgePython {
     $base = Join-Path $env:LOCALAPPDATA 'E3DBridge\runtime'
     [void][IO.Directory]::CreateDirectory($base)
     $target = Join-Path $base ('python-' + $manifest.version + '-' + $manifest.sha256.Substring(0,12))
+    if ($NoInstall -and -not (Test-Path -LiteralPath $target)) { return $null }  # hooks never download or unpack Python
     $mutex = New-Object Threading.Mutex($false, 'Local\E3DBridgePython31313')
     $locked = $false
     try {

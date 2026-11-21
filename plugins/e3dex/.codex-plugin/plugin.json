@@ -1,6 +1,6 @@
 {
   "name": "e3dex",
-  "version": "4.6.0",
+  "version": "4.7.0",
   "description": "열린 프로젝트·작업 DB를 선택하는 PIPE·Structures·장비·PLAN 통합 E3D 도구",
   "author": {
     "name": "E3DEX Team"
@@ -25,5 +25,6 @@
       "E3DEX 초기 설정과 선택한 프로젝트 연결 검증을 해줘."
     ],
     "brandColor": "#176B87"
-  }
+  },
+  "hooks": "./hooks/codex.json"
 }
