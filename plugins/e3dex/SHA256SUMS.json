@@ -2,7 +2,7 @@
   "algorithm": "SHA256",
   "files": {
     ".claude-plugin/plugin.json": "e784858f8ab7e5752035f2efdf80111d2bda3a16135acf81dbe200cbd74b2cdf",
-    ".codex-plugin/plugin.json": "9b94ab3479fe7aad00573e19023838d1fc49c189fdc1cbb6b99c6fc328b0de26",
+    ".codex-plugin/plugin.json": "a9b0552fd9ebcf185558abff533427c624b39f6c54d5652639df30c078ff7031",
     ".mcp.json": "7d5406e701d6af57444a2b42dad959649769d4fa225ac1644b871bf86ead4235",
     "README.ko.md": "dacaddd6a0c6ef192f513d305ec11011e570076d92c2b383055286365cef37fe",
     "bridge.json": "53ea9ef2f751949b848a10ea8cf68baaf721bf168715596ba23361e2614bc46f",
@@ -35,7 +35,7 @@
     "hooks/claude.json": "98937366b0c1f3161f03d0222753c9c5628206f87689a535ca6de4d393ad95d9",
     "hooks/codex.json": "15846d9669c815077b1ac60260a2b007bc515d84d1912efbd3f4f751f7473869",
     "mcp.json": "c42cb1308983c1d9e6967a46099e24d4f01bc2a36b86fca02d52c2d06c191923",
-    "plugin.json": "3160abae7751a4ec2b3529bc6431615eab7db6e3d7e3ca770af447e5dbe042e1",
+    "plugin.json": "25187b1e84b250db9dd0568c94ac7521b0022bdb5301f1a4f7b1b19083c3b065",
     "runtime/PYTHON-LICENSE.txt": "62bec384df47b0328307db41455ff6ea2559e5546b394ac69148561b21703120",
     "runtime/python-3.13.13-embed-amd64.zip.sigstore": "cc5cebfe4f853a0f0efb330a59c0f5c349eab9e24ef3f2546974244245b09b8b",
     "runtime/python.json": "5bb7885b6cf5536a51c131695fe34ea9fabc8732a07c208ddb463032b012859a",
