@@ -1,4 +1,4 @@
 interface:
   display_name: "E3D 배관 설계와 정비성 검토"
-  short_description: "장비 노즐 간 루팅부터 밸브·스풀 탈착, 서포트 간섭과 변경 인폼까지 검토"
+  short_description: "장비 노즐·랙 헤더 루팅, 밸브 정비 공간, ET 적용 범위와 ISO 경고 검토"
   default_prompt: "$e3d-pipe-design으로 두 노즐을 연결하고, 기존 발판에서 밸브를 조작하고 스풀을 뺄 수 있는지 확인해줘."
