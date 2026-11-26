@@ -52,6 +52,11 @@
     "skills/e3d-pipe-design/references/rack-headers.md": "04a1caec884391b881eec838709d5035e5b94d45dc308bf841934cceedb230fd",
     "skills/e3d-pipe-design/references/routing-example.md": "8f598648cb39c1d5b4c6fea5848c9b349277b222805668ca86480ab001b36abc",
     "skills/e3d-pipe-design/references/routing.md": "11601f317c83f2141fe91de68f2efb12872b334273175c5d49f6cd44ad4ef0b0",
-    "skills/e3dex/SKILL.md": "075a237011e45ad932f3e138a979ba5f9f94843693823c009d3c17e42d3f4ae1"
+    "skills/e3dex/SKILL.md": "075a237011e45ad932f3e138a979ba5f9f94843693823c009d3c17e42d3f4ae1",
+    "skills/piping-plan/agents/openai.yaml": "2f7ba8084bf72be67cc19466120b38eade9832fe4e774a1c4b79ceaf688f3e5a",
+    "skills/piping-plan/references/annotations.md": "b525b3cbcdf2e17fc821e4af43470008a8936b8b8baa79582225bd623a104ef0",
+    "skills/piping-plan/references/export.md": "b20e86ca83780bf26e8106cd6968c347296a525f8034a70f01edb6313f96cf75",
+    "skills/piping-plan/scripts/check_dimensions.py": "b75a7fd3121fe220cea545d9b02d783f53f5b81c28194e16b222d3d64ce9e9a7",
+    "skills/piping-plan/SKILL.md": "d3baf92edd395beebabc2af1ecc91d16b2dd5b2bd3932ff83d52dacea32d930b"
   }
 }

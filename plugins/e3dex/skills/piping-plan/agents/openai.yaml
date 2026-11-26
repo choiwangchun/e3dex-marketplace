@@ -1,0 +1,4 @@
+interface:
+  display_name: "PIPING PLAN"
+  short_description: "E3D 배관 평면도의 간격 치수·BOP 지시선 작성과 DWG·PDF 검수"
+  default_prompt: "$piping-plan으로 선택한 배관과 랙의 평면도를 만들고, 배관 간격·라인번호·BOP를 표시해 DWG와 인쇄용 PDF로 검수해줘."
